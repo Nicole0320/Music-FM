@@ -122,9 +122,7 @@
             $('.open-channels').on('click', function(){
                 $channels = $('#channels');
                 $.each(channelsList, function(key, value){
-                    let tempHTML = `<li data="${value.channel_id}">
-                                        ${value.name}
-                                    </li>`;
+                    let tempHTML = '<li data="'+ value.channel_id +'>'+value.name+'</li>';
                     $channels.append(tempHTML);
                 })
             })
