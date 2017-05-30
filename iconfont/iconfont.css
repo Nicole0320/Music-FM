@@ -1,0 +1,41 @@
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1496040983106'); /* IE9*/
+  src: url('iconfont.eot?t=1496040983106#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1496040983106') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1496040983106') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1496040983106#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Left:before { content: "\f0013"; }
+
+.icon-right:before { content: "\e613"; }
+
+.icon-menu:before { content: "\e745"; }
+
+.icon-play:before { content: "\e651"; }
+
+.icon-next:before { content: "\e628"; }
+
+.icon-plus:before { content: "\e62e"; }
+
+.icon-8080pxtubiaokuozhan100:before { content: "\e766"; }
+
+.icon-weibiaoti2:before { content: "\e630"; }
+
+.icon-heart:before { content: "\e60b"; }
+
+.icon-trash:before { content: "\e65f"; }
+
+.icon-minus:before { content: "\e627"; }
+
+.icon-pause:before { content: "\e605"; }
+

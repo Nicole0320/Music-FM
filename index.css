@@ -1,0 +1,134 @@
+*{margin: 0; padding: 0}
+ul, li{list-style: none;}
+
+.fm-container{
+    color: #333;
+    width: 450px;
+    height: 800px;
+    margin: 20px auto;
+    font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, PingFang SC, Source Han Sans CN, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+}
+
+@media(max-width: 450px){
+    .fm-container{
+        width: 100wh;
+        height: 100vh;
+        margin: 0;
+    }
+}
+
+.topbar{
+    background: linear-gradient(#2c3c35, #313431);
+    color: #7d807e;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.topbar>.prev, .topbar>.next{
+    font-size: 1.5em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    color: #e8edea;
+    cursor: pointer;
+}
+
+.topbar>.prev:hover, .topbar>.next:hover{
+    color: #fafcfc;
+}
+
+.channels{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.channels>.current-channel{
+    color: #e8edea;
+    font-size: 1.2em;
+}
+
+#main{
+    display: flex;
+    flex-direction: row;
+    background-color: #e8edea;
+    color: #3f413f;
+    padding: 10px;
+}
+
+#main>img{
+    width: 90px;
+    height: 90px;
+    display: block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 20px;
+}
+
+#main>.detail{
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#main>.detail>h3{
+    font-size: 0.9em;
+}
+
+#main>.detail>h3.artist{
+    color: #7f8281;
+}
+
+#main>.detail>h3.title{
+    font-size: 1.1em;
+}
+
+#main>.detail>.time-line{
+    display: flex;
+    margin: 3px 15px 3px 8px;
+    align-items: center;
+}
+
+#main>.detail>.time-line>.line{
+    height: 3px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    border-radius: 2px;
+    background-color: #ced9d3;
+    cursor: pointer;
+}
+
+#main>.detail>.time-line>.line>.played{
+    background-color: #91bdb4;
+    width: 0;
+    height: 100%;
+    border-radius: 2px;
+}
+
+#main>.detail>.time-line>.time-left{
+    font-size: 0.7em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 5px;
+    padding: 0 8px;
+}
+
+#main>.detail>.control{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#main>.detail>.control>li{
+    cursor: pointer;
+}
+
+#main>.detail>.control>li:hover{
+    opacity: 0.7;
+}

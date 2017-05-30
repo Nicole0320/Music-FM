@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <div class="fm-container">
+        <head>
+            <meta charset="utf-8">
+            <meta name="referrer" content="never">
+            <title>DF Music</title>
+            <link rel="stylesheet" href="index.css">
+            <link rel="stylesheet" href="iconfont/iconfont.css">
+        </head>
+        <body>
+            <div class="topbar">
+                <div class="prev iconfont icon-Left"></div>
+                <ul class="channels">
+                    <li>R&amp;B</li>
+                    <li class="current-channel">Pop</li>
+                    <li>青春</li>
+                </ul>
+                <div class="next iconfont icon-right"></div>
+            </div>
+            <audio src="#"></audio>
+            <div id="main">
+                <img src="http://musicdata.baidu.com/data2/pic/88733215/88733215.jpg">
+                <div class="detail">
+                    <h3 class="artist">演唱者</h3>
+                    <h3 class="title">歌名</h3>
+                    <div class="time-line">
+                        <div class="line">
+                            <div class="played"></div>
+                        </div>
+                        <div class="time-left">-<span class="minute">00</span>:<span class="second">00</span></div>
+                    </div>
+                    <ul class="control">
+                        <li class="iconfont icon-heart"></li>
+                        <li class="iconfont icon-play play-or-pause"></li>
+                        <li class="iconfont icon-next"></li>
+                        <li class="iconfont icon-weibiaoti2"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <button class="open-channels">电台列表</button>
+        <ul id='channels'></ul>
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="index.js"></script>
+        <script>
+            let channelsList = [];
+            let currentChannels = [];
+            let currentChannelsId = 1;
+            let currentSong = {};
+            let playing = true;
+            let clock = 0;
+            let time = 0;
+            let duration = 0;
+
+            $(window).ready(function(){
+                $('audio').attr('autoplay', 'true');
+                $.get('http://api.jirengu.com/fm/getChannels.php')
+                .done(function(channelInfo){
+                    channelsList = JSON.parse(channelInfo).channels;
+                    let obj = {channel_id: '', name: ''};
+                    channelsList.push(obj);
+                    channelsList.unshift(obj);
+                    currentChannels = channelsList.slice(0, 3);
+                    updateChannels();
+                    loadSong();
+                });
+            });
+
+            //下一曲
+            $('.icon-next').on('click', function(){
+                loadSong();
+            })
+
+            //频道右转
+            $('.next').on('click', function(){
+                if(currentChannelsId >= channelsList.length-2){
+                    return;
+                }
+                
+                currentChannelsId++;
+
+                currentChannels = channelsList.slice(currentChannelsId-1, currentChannelsId+2);
+                updateChannels();
+                loadSong();
+            })
+
+            //频道左转
+            $('.prev').on('click', function(){
+                if(currentChannelsId <= 1){
+                    return;
+                }
+
+                currentChannelsId--;
+
+                currentChannels = channelsList.slice(currentChannelsId-1, currentChannelsId+2);
+                updateChannels();
+                loadSong();
+            })
+
+            //播放和暂停
+            $('.play-or-pause').on('click', function(){
+                if(playing === true){
+                    $(this).removeClass('icon-play').addClass('icon-pause');
+                    $('audio')[0].pause();
+                    playing = false;
+                }
+                else{
+                    $(this).removeClass('icon-pause').addClass('icon-play');
+                    $('audio')[0].play();
+                    playing = true;
+                }
+            })
+
+            $('.open-channels').on('click', function(){
+                $channels = $('#channels');
+                $.each(channelsList, function(key, value){
+                    let tempHTML = `<li data="${value.channel_id}">
+                                        ${value.name}
+                                    </li>`;
+                    $channels.append(tempHTML);
+                })
+            })
+
+            $('audio').on('canplay', function(){
+                let $audio = $('audio')[0];
+                duration = $audio.duration;
+                time = 0;
+                clock = setInterval(function(){
+                    if(time >= Math.floor(duration)){
+                        clearInterval(clock);
+                        return;
+                    }
+                    time = $audio.currentTime;
+                    let timeRate = Math.floor(time/duration*1000)/10 + '%';
+                    $('.played').css('width', timeRate);
+                    dataToTime(duration - time);
+                }, 1000);
+
+                function dataToTime(num){
+                    num = Math.floor(num);
+                    let sec = num%60;
+                    let min = Math.floor(num/60);
+                    if(min<10){
+                        $('.minute').html('0'+min);
+                    }
+                    else{
+                        $('.minute').html(min);
+                    }
+                    if(sec<10){
+                        $('.second').html('0'+sec);
+                    }
+                    else{
+                        $('.second').html(sec);
+                    }
+                }
+                console.log(currentSong.lrc);
+            })
+
+            $('audio').on('ended', function(){
+                loadSong();
+            })
+
+            $('.time-line>.line').on('click', function(e){
+                let position = e.pageX - $(this).offset().left;
+                time = position/$(this).innerWidth()*duration;
+                $('audio')[0].currentTime = time;
+            })
+
+            function updateChannels(){
+                for(let i=0; i<3; i++){
+                    $('.channels').children().eq(i).html(currentChannels[i].name);
+                }
+            }
+
+            function loadSong(){
+                clearInterval(clock);
+                $('.played').css('width', '0%');
+                $('.second').html('00');
+                $('.minute').html('00');
+                $.get('http://api.jirengu.com/fm/getSong.php',{channel: currentChannels[1].channel_id})
+                    .done(function(song){
+                        currentSong = JSON.parse(song).song[0];
+                        let pictureURL = currentSong.picture.substring(0,currentSong.picture.length-10);
+                        $('img').attr('src', pictureURL);
+                        $('.artist').html(currentSong.artist);
+                        $('.title').html(currentSong.title);
+                        $('audio').attr('src', currentSong.url);
+                    });
+            }
+
+        </script>
+    </body>
+</html>
