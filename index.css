@@ -6,14 +6,20 @@ ul, li{list-style: none;}
     width: 450px;
     height: 800px;
     margin: 20px auto;
+    background-color: #ceceff;
     font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, PingFang SC, Source Han Sans CN, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
 }
 
-@media(max-width: 450px){
+@media(max-width: 480px){
     .fm-container{
-        width: 100wh;
-        height: 100vh;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: auto;
         margin: 0;
+        min-width: 320px;
     }
 }
 
