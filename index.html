@@ -32,7 +32,7 @@
                     </div>
                     <ul class="control">
                         <li class="iconfont icon-heart"></li>
-                        <li class="iconfont icon-play play-or-pause"></li>
+                        <li class="iconfont icon-pause play-or-pause"></li>
                         <li class="iconfont icon-next"></li>
                         <li class="iconfont icon-weibiaoti2"></li>
                     </ul>
@@ -108,12 +108,12 @@
             //播放和暂停
             $('.play-or-pause').on('click', function(){
                 if(playing === true){
-                    $(this).removeClass('icon-play').addClass('icon-pause');
+                    $(this).removeClass('icon-pause').addClass('icon-play');
                     $('audio')[0].pause();
                     playing = false;
                 }
                 else{
-                    $(this).removeClass('icon-pause').addClass('icon-play');
+                    $(this).removeClass('icon-play').addClass('icon-pause');
                     $('audio')[0].play();
                     playing = true;
                 }
