@@ -150,3 +150,9 @@ ul, li{list-style: none;}
 .lyric>li{
     margin: 5px 0;
 }
+
+.lyric>li.current-line{
+    font-size: 1.2em;
+    font-weight: bold;
+    color: saddlebrown;
+}
