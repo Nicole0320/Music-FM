@@ -7,6 +7,7 @@ ul, li{list-style: none;}
     height: 800px;
     margin: 20px auto;
     background-color: #d8ddda;
+    overflow: hidden;
     font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, PingFang SC, Source Han Sans CN, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
   }
 
@@ -142,7 +143,8 @@ ul, li{list-style: none;}
 .lyric{
     text-align: center;
     padding: 20px;
-    overflow: hidden;
+    overflow-y: scroll;
+    margin-right: -20px;
 }
 
 .lyric>li{
