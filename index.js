@@ -99,24 +99,6 @@ $('audio').on('canplay', function(){
         $('.played').css('width', timeRate);
         leftTime(duration - time);
     }, 1000);
-
-    function leftTime(num){
-        num = Math.floor(num);
-        let sec = num%60;
-        let min = Math.floor(num/60);
-        if(min<10){
-            $('.minute').html('0'+min);
-        }
-        else{
-            $('.minute').html(min);
-        }
-        if(sec<10){
-            $('.second').html('0'+sec);
-        }
-        else{
-            $('.second').html(sec);
-        }
-    }
 })
 
 $('audio').on('ended', function(){
@@ -188,5 +170,23 @@ function renderLyric(){
         console.log(lyric[key]);
         let html = '<li>'+ lyric[key] +'</li>'
         $('.lyric').append(html)
+    }
+}
+
+function leftTime(num){
+    num = Math.floor(num);
+    let sec = num%60;
+    let min = Math.floor(num/60);
+    if(min<10){
+        $('.minute').html('0'+min);
+    }
+    else{
+        $('.minute').html(min);
+    }
+    if(sec<10){
+        $('.second').html('0'+sec);
+    }
+    else{
+        $('.second').html(sec);
     }
 }
