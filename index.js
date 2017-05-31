@@ -144,5 +144,14 @@ function loadSong(){
             $('.artist').html(currentSong.artist);
             $('.title').html(currentSong.title);
             $('audio').attr('src', currentSong.url);
+            loadLrc(currentSong.sid);
         });
+}
+
+function loadLrc(songID){
+    $.post('https://jirenguapi.applinzi.com/fm/getLyric.php',{sid: songID})
+    .done(function(res){
+        let lyric = JSON.parse(res);
+        $('.lyric').html(lyric.lyric);
+    });
 }
