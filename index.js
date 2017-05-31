@@ -85,6 +85,7 @@ $('.open-channels').on('click', function(){
     })
 })
 
+//加载播放信息
 $('audio').on('canplay', function(){
     let $audio = $('audio')[0];
     duration = $audio.duration;
