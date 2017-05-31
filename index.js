@@ -3,10 +3,11 @@ let currentChannels = [];
 let currentChannelsId = 1;
 let currentSong = {};
 let playing = true;
-let clock = 0;
+let clock = 1;
 let time = 0;
 let duration = 0;
 let lyric = [];
+let lyricClock = -2;
 
 $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
@@ -127,6 +128,7 @@ function loadSong(){
         .done(function(song){
             currentSong = JSON.parse(song).song[0];
             let pictureURL = currentSong.picture.substring(0,currentSong.picture.length-10);
+            lyric = [];
             $('img').attr('src', pictureURL);
             $('.artist').html(currentSong.artist);
             $('.title').html(currentSong.title);
@@ -138,10 +140,17 @@ function loadSong(){
 function loadLrc(songID){
     $.post('https://jirenguapi.applinzi.com/fm/getLyric.php',{sid: songID})
     .done(function(res){
+        clearInterval(lyricClock);
+        let curLrcNum = 0;
         decodeLyric(JSON.parse(res).lyric);
         $('.lyric').html(lyric);
         renderLyric();
-        lyric = [];
+        lyricClock = setInterval(function(){    
+            curLrcNum = scrollLyric(curLrcNum);
+            if(curLrcNum >= lyric.length-1){
+                clearInterval(lyricClock);
+            }
+        }, 10);
     });
 }
 
@@ -163,7 +172,9 @@ function decodeLyric(lrcString){
                 }
             })
         }
-        lyric.push(lrcObj);
+        if(lrcObj.hasOwnProperty('time') && lrcObj.time !== 0.01){
+            lyric.push(lrcObj);
+        }
     }, lrcArr);
     lyric.sort(function(a,b){
         return a.time-b.time;
@@ -176,7 +187,7 @@ function renderLyric(){
     $.each(lyric, function(key,value){
         let html = '<li>'+ value.content +'</li>'
         if(value.content === undefined){
-            html = '<li></li>'
+            html = '<li> </li>'
         }
         $('.lyric').append(html)
     });
@@ -198,4 +209,32 @@ function leftTime(num){
     else{
         $('.second').html(sec);
     }
+}
+
+function scrollLyric(curLrcNum){
+    if(curLrcNum >= lyric.length){
+        return curLrcNum;
+    }
+
+    if(lyric[curLrcNum+1]){
+        if(time < lyric[curLrcNum+1].time && time >= lyric[curLrcNum].time){
+            return curLrcNum;
+        }
+        else if(time >= lyric[curLrcNum+1].time){
+            curLrcNum++;
+            $('.lyric').children('li').removeClass('current-line');
+            $('.lyric').children('li').eq(curLrcNum).addClass('current-line');
+            console.log(curLrcNum);
+        }
+        else{
+            if(curLrcNum < 1){
+                return curLrcNum;
+            }
+            curLrcNum--;
+            $('.lyric').children('li').removeClass('current-line');
+            $('.lyric').children('li').eq(curLrcNum).addClass('current-line');
+            console.log(curLrcNum);
+        }
+    }
+    return curLrcNum;
 }
