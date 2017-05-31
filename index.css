@@ -8,7 +8,7 @@ ul, li{list-style: none;}
     margin: 20px auto;
     background-color: #d8ddda;
     font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, PingFang SC, Source Han Sans CN, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
-}
+  }
 
 @media(max-width: 480px){
     .fm-container{
@@ -137,4 +137,14 @@ ul, li{list-style: none;}
 
 #main>.detail>.control>li:hover{
     opacity: 0.7;
+}
+
+.lyric{
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.lyric>li{
+    margin: 5px 0;
 }

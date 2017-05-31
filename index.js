@@ -10,6 +10,9 @@ let lyric = {};
 
 $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
+    let lyricBoxHeight = $('.fm-container').innerHeight()-$('#main').outerHeight()-$('.topbar').outerHeight()-60;
+    console.log(lyricBoxHeight);
+    $('.lyric').css('height',lyricBoxHeight+'px');
     // $.get('http://api.jirengu.com/fm/getChannels.php')
     // .done(function(channelInfo){
     //     channelsList = JSON.parse(channelInfo).channels;
@@ -154,7 +157,7 @@ function loadLrc(songID){
     .done(function(res){
         lyric = decodeLyric(JSON.parse(res).lyric);
         $('.lyric').html(lyric);
-        console.log(lyric);
+        renderLyric();
     });
 }
 
@@ -177,4 +180,13 @@ function decodeLyric(lrcString){
         }
     }, lrcArr);
     return lrcObj;
+}
+
+function renderLyric(){
+    $('.lyric').empty();
+    for(key in lyric){
+        console.log(lyric[key]);
+        let html = '<li>'+ lyric[key] +'</li>'
+        $('.lyric').append(html)
+    }
 }
