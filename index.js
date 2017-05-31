@@ -6,6 +6,7 @@ let playing = true;
 let clock = 0;
 let time = 0;
 let duration = 0;
+let lyric = {};
 
 $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
@@ -151,7 +152,29 @@ function loadSong(){
 function loadLrc(songID){
     $.post('https://jirenguapi.applinzi.com/fm/getLyric.php',{sid: songID})
     .done(function(res){
-        let lyric = JSON.parse(res);
-        $('.lyric').html(lyric.lyric);
+        lyric = decodeLyric(JSON.parse(res).lyric);
+        $('.lyric').html(lyric);
+        console.log(lyric);
     });
+}
+
+function decodeLyric(lrcString){
+    let lrcObj = {};
+    let lrcArr = lrcString.split('\n');
+    lrcArr.forEach(function(element) {
+        let lrcTime = element.match(/\[(?:\d+:)\d+.\d+]/g);
+        let lrcContent = element.match(/\][^\[].*/g)
+        if(lrcTime !== null){
+            lrcTime.forEach(function(ele){
+                let min = 0, sec = 0, secTime = 0;
+                min = ele.match(/\[\d+:/)[0].slice(1,3);
+                sec = ele.match(/\:\d+.\d+/)[0].slice(1,6);
+                secTime = parseInt(min)*60 + parseFloat(sec);
+                if(lrcContent !== null){
+                    lrcObj[secTime.toString()] = lrcContent[0].slice(1,lrcContent[0].length);
+                }
+            })
+        }
+    }, lrcArr);
+    return lrcObj;
 }
