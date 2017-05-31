@@ -179,7 +179,6 @@ function decodeLyric(lrcString){
     lyric.sort(function(a,b){
         return a.time-b.time;
     })
-    console.log(lyric)
 }
 
 function renderLyric(){
@@ -224,7 +223,6 @@ function scrollLyric(curLrcNum){
             curLrcNum++;
             $('.lyric').children('li').removeClass('current-line');
             $('.lyric').children('li').eq(curLrcNum).addClass('current-line');
-            console.log(curLrcNum);
         }
         else{
             if(curLrcNum < 1){
@@ -233,7 +231,6 @@ function scrollLyric(curLrcNum){
             curLrcNum--;
             $('.lyric').children('li').removeClass('current-line');
             $('.lyric').children('li').eq(curLrcNum).addClass('current-line');
-            console.log(curLrcNum);
         }
     }
     return curLrcNum;
