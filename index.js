@@ -6,7 +6,7 @@ let playing = true;
 let clock = 0;
 let time = 0;
 let duration = 0;
-let lyric = {};
+let lyric = [];
 
 $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
@@ -138,16 +138,17 @@ function loadSong(){
 function loadLrc(songID){
     $.post('https://jirenguapi.applinzi.com/fm/getLyric.php',{sid: songID})
     .done(function(res){
-        lyric = decodeLyric(JSON.parse(res).lyric);
+        decodeLyric(JSON.parse(res).lyric);
         $('.lyric').html(lyric);
         renderLyric();
+        lyric = [];
     });
 }
 
 function decodeLyric(lrcString){
-    let lrcObj = {};
     let lrcArr = lrcString.split('\n');
     lrcArr.forEach(function(element) {
+        let lrcObj = {};
         let lrcTime = element.match(/\[(?:\d+:)\d+.\d+]/g);
         let lrcContent = element.match(/\][^\[].*/g)
         if(lrcTime !== null){
@@ -157,21 +158,28 @@ function decodeLyric(lrcString){
                 sec = ele.match(/\:\d+.\d+/)[0].slice(1,6);
                 secTime = parseInt(min)*60 + parseFloat(sec);
                 if(lrcContent !== null){
-                    lrcObj[secTime.toString()] = lrcContent[0].slice(1,lrcContent[0].length);
+                    lrcObj.time = secTime;
+                    lrcObj.content = lrcContent[0].slice(1,lrcContent[0].length);
                 }
             })
         }
+        lyric.push(lrcObj);
     }, lrcArr);
-    return lrcObj;
+    lyric.sort(function(a,b){
+        return a.time-b.time;
+    })
+    console.log(lyric)
 }
 
 function renderLyric(){
     $('.lyric').empty();
-    for(key in lyric){
-        console.log(lyric[key]);
-        let html = '<li>'+ lyric[key] +'</li>'
+    $.each(lyric, function(key,value){
+        let html = '<li>'+ value.content +'</li>'
+        if(value.content === undefined){
+            html = '<li></li>'
+        }
         $('.lyric').append(html)
-    }
+    });
 }
 
 function leftTime(num){
