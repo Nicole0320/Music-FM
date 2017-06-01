@@ -21,6 +21,7 @@ ul, li{list-style: none;}
         width: auto;
         margin: 0;
         min-width: 320px;
+        height: auto;
     }
 }
 
@@ -154,5 +155,5 @@ ul, li{list-style: none;}
 .lyric>li.current-line{
     font-size: 1.2em;
     font-weight: bold;
-    color: saddlebrown;
+    color: #518d84;
 }
