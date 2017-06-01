@@ -237,14 +237,10 @@ function renderScrollLyric(curLrcNum){
     let lineHeight = $lyric.children('li').eq(0).outerHeight()+5;
     let curOffenset = lineHeight*(curLrcNum+1) + $('.current-line').outerHeight(true)/2;
     let lrcLength = $('.current-line').outerHeight(true)*lyric.length;
-    let scrollY = $lyric.scrollTop();
     let height = $lyric.height();
 
-    console.log(curOffenset);
-    console.log(height/2);
     if(curOffenset>(height/2) && lrcLength-curOffenset > height/2){
         $lyric.scrollTop(curOffenset - height/2);
-        console.log(scrollY);
     }
     else if(curOffenset<=(height/2)){
         $lyric.scrollTop(0);
