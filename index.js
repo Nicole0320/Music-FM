@@ -149,7 +149,7 @@ function loadLrc(songID){
             if(curLrcNum >= lyric.length-1){
                 clearInterval(lyricClock);
             }
-        }, 50);
+        }, 20);
     });
 }
 
@@ -217,17 +217,39 @@ function scrollLyric(curLrcNum){
         }
         else if(time >= lyric[curLrcNum+1].time){
             curLrcNum++;
-            $('.lyric').children('li').removeClass('current-line');
-            $('.lyric').children('li').eq(curLrcNum).addClass('current-line');
+            renderScrollLyric(curLrcNum);
         }
         else{
             if(curLrcNum < 1){
                 return curLrcNum;
             }
             curLrcNum--;
-            $('.lyric').children('li').removeClass('current-line');
-            $('.lyric').children('li').eq(curLrcNum).addClass('current-line');
+            renderScrollLyric(curLrcNum);
         }
     }
     return curLrcNum;
+}
+
+function renderScrollLyric(curLrcNum){
+    $lyric = $('.lyric');
+    $lyric.children('li').removeClass('current-line');
+    $lyric.children('li').eq(curLrcNum).addClass('current-line');
+    let lineHeight = $lyric.children('li').eq(0).outerHeight()+5;
+    let curOffenset = lineHeight*(curLrcNum+1) + $('.current-line').outerHeight(true)/2;
+    let lrcLength = $('.current-line').outerHeight(true)*lyric.length;
+    let scrollY = $lyric.scrollTop();
+    let height = $lyric.height();
+
+    console.log(curOffenset);
+    console.log(height/2);
+    if(curOffenset>(height/2) && lrcLength-curOffenset > height/2){
+        $lyric.scrollTop(curOffenset - height/2);
+        console.log(scrollY);
+    }
+    else if(curOffenset<=(height/2)){
+        $lyric.scrollTop(0);
+    }
+    else{
+        $lyric.scrollTop(lineHelrcLengthight - height);
+    }
 }
