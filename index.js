@@ -127,10 +127,9 @@ function loadSong(){
     $('.minute').html('00');
     $.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel: currentChannels[1].channel_id})
         .done(function(song){
-            console.log(song)
             currentSong = JSON.parse(song).song[0];
             if(currentSong.url === null){
-                console.log("又是个空的，重新来一首")
+                console.log('这首歌是空的，再来一首')
                 loadSong();
             }
             else{
@@ -256,6 +255,6 @@ function renderScrollLyric(curLrcNum){
         $lyric.scrollTop(0);
     }
     else{
-        $lyric.scrollTop(lineHelrcLengthight - height);
+        $lyric.scrollTop(lineHeight - height);
     }
 }
