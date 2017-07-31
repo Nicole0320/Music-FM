@@ -108,10 +108,35 @@ $('audio').on('ended', function(){
     loadSong();
 })
 
+//调节播放进度
 $('.time-line>.line').on('click', function(e){
     var position = e.pageX - $(this).offset().left;
     time = position/$(this).innerWidth()*duration;
     $('audio')[0].currentTime = time;
+})
+
+//调节音量
+$('.volume-controler').on('click', function(e){
+    console.log('volume')
+    $this = $(this);
+    var position = e.pageY - $this.offset().top;
+    var volume = (position-5)/50;
+    if(volume>=1){
+        $('audio')[0].volume = 0;
+        $this.children('.volume-height').css('height', '100%');
+        $('.volume').addClass('silence');
+    }
+    else if(volume<=0){
+        $('audio')[0].volume = 1;
+        $this.children('.volume-height').css('height', '0%');
+        $('.volume').removeClass('silence');
+    }
+    else{
+        $('audio')[0].volume = 1-volume;
+        $this.children('.volume-height').css('height', volume*100 + '%');
+        $('.volume').removeClass('silence');
+    }
+    console.log(volume);
 })
 
 function updateChannels(){

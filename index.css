@@ -141,6 +141,37 @@ ul, li{list-style: none;}
     opacity: 0.7;
 }
 
+#main>.detail>.control>li.volume{
+    position: relative;
+}
+
+#main>.detail>.control>li.volume>.volume-controler{
+    box-sizing: content-box;
+    position: absolute;
+    left: 100%;
+    bottom: -100%;
+    height: 50px;
+    width: 2px;
+    background-color: #333;
+    border:  5px solid #d8ddda;
+    visibility: hidden;
+}
+
+#main>.detail>.control>li.volume>.volume-controler>.volume-height{
+    width: 100%;
+    height: 0;
+    background-color: #ccc;
+}
+
+#main>.detail>.control>li.volume:hover>.volume-controler{
+    visibility: visible;
+    opacity: 1;
+}
+
+#main>.detail>.control>li.silence{
+    color: red;
+}
+
 .lyric{
     text-align: center;
     padding: 20px;
