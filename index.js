@@ -134,7 +134,8 @@ function loadSong(){
                 loadSong();
             }
             else{
-                let pictureURL = currentSong.picture.substring(0,currentSong.picture.length-10);
+                let indexOfAt = currentSong.picture.indexOf('@');
+                let pictureURL = currentSong.picture.substring(0,indexOfAt);
                 lyric = [];
                 $('img').attr('src', pictureURL);
                 $('.artist').html(currentSong.artist);
