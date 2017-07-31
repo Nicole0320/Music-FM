@@ -117,7 +117,6 @@ $('.time-line>.line').on('click', function(e){
 
 //调节音量
 $('.volume-controler').on('click', function(e){
-    console.log('volume')
     $this = $(this);
     var position = e.pageY - $this.offset().top;
     var volume = (position-5)/50;
@@ -136,7 +135,6 @@ $('.volume-controler').on('click', function(e){
         $this.children('.volume-height').css('height', volume*100 + '%');
         $('.volume').removeClass('silence');
     }
-    console.log(volume);
 })
 
 function updateChannels(){
