@@ -153,9 +153,9 @@ function loadLrc(songID){
         decodeLyric(JSON.parse(res).lyric);
         $('.lyric').html(lyric);
         renderLyric();
-        lyricClock = setInterval(function(){    
+        lyricClock = setInterval(function(){
             curLrcNum = scrollLyric(curLrcNum);
-            if(curLrcNum >= lyric.length-1){
+            if(curLrcNum > lyric.length-1){
                 clearInterval(lyricClock);
             }
         }, 20);
@@ -191,6 +191,11 @@ function decodeLyric(lrcString){
 
 function renderLyric(){
     $('.lyric').empty();
+    let end = {
+        content: "~ end ~",
+        time: duration-0.1
+    }
+    lyric.push(end);
     $.each(lyric, function(key,value){
         let html = '<li>'+ value.content +'</li>';
         $('.lyric').append(html)
@@ -216,10 +221,6 @@ function leftTime(num){
 }
 
 function scrollLyric(curLrcNum){
-    if(curLrcNum >= lyric.length){
-        return curLrcNum;
-    }
-
     if(lyric[curLrcNum+1]){
         if(time < lyric[curLrcNum+1].time && time >= lyric[curLrcNum].time){
             return curLrcNum;
@@ -243,9 +244,13 @@ function renderScrollLyric(curLrcNum){
     $lyric = $('.lyric');
     $lyric.children('li').removeClass('current-line');
     $lyric.children('li').eq(curLrcNum).addClass('current-line');
+    //单行歌词的高度
     let lineHeight = $lyric.children('li').eq(0).outerHeight()+5;
+    //第一行歌词顶端到当前歌词的距离
     let curOffenset = lineHeight*(curLrcNum+1) + $('.current-line').outerHeight(true)/2;
+    //整篇歌词的实际高度
     let lrcLength = $('.current-line').outerHeight(true)*lyric.length;
+    //显示歌词的可见窗口的高度
     let height = $lyric.height();
 
     if(curOffenset>(height/2) && lrcLength-curOffenset > height/2){
@@ -255,6 +260,6 @@ function renderScrollLyric(curLrcNum){
         $lyric.scrollTop(0);
     }
     else{
-        $lyric.scrollTop(lineHeight - height);
+        $lyric.scrollTop(lrcLength - height);
     }
 }
