@@ -13,6 +13,8 @@ $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
     let lyricBoxHeight = $('.fm-container').innerHeight()-$('#main').outerHeight()-$('.topbar').outerHeight()-60;
     $('.lyric').css('height',lyricBoxHeight+'px');
+
+    // 获取播放频道
     // $.get('http://api.jirengu.com/fm/getChannels.php')
     // .done(function(channelInfo){
     //     channelsList = JSON.parse(channelInfo).channels;
@@ -125,14 +127,21 @@ function loadSong(){
     $('.minute').html('00');
     $.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel: currentChannels[1].channel_id})
         .done(function(song){
+            console.log(song)
             currentSong = JSON.parse(song).song[0];
-            let pictureURL = currentSong.picture.substring(0,currentSong.picture.length-10);
-            lyric = [];
-            $('img').attr('src', pictureURL);
-            $('.artist').html(currentSong.artist);
-            $('.title').html(currentSong.title);
-            $('audio').attr('src', currentSong.url);
-            loadLrc(currentSong.sid);
+            if(currentSong.url === null){
+                console.log("又是个空的，重新来一首")
+                loadSong();
+            }
+            else{
+                let pictureURL = currentSong.picture.substring(0,currentSong.picture.length-10);
+                lyric = [];
+                $('img').attr('src', pictureURL);
+                $('.artist').html(currentSong.artist);
+                $('.title').html(currentSong.title);
+                $('audio').attr('src', currentSong.url);
+                loadLrc(currentSong.sid);
+            }
         });
 }
 
