@@ -351,8 +351,10 @@ function loadPlaylist(){
     likePlaylist.playlist =  JSON.parse(localStorage.getItem('playlist'))||[]
     var html = '';
     $.each(likePlaylist.playlist, function(key, value){
-        html += `<li>${value.title}</li>`;
-        console.log
+        html += `<li>
+            <div class="list-item-title">${value.title}</div>
+            <div class="list-item-artist">${value.artist}</div>
+            </li>`;
      })
     $('.playlist').empty().append(html);
 }

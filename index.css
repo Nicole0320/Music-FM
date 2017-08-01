@@ -177,13 +177,57 @@ ul, li{list-style: none;}
     color: orangered;
 }
 
-#main>.playlist{
+#main>.favorite-list{
     position: absolute;
     top: 100%;
     left: 0;
-    background: #fff;
-    opacity: 0.6;
-    height: 100px;
+    width: 100%;
+}
+
+#main>.favorite-list>.open-menu{
+    cursor: pointer;
+    background-color: #dcece5;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+#main>.favorite-list>.playlist{
+    cursor: pointer;
+    height: 200px;
+    width: 100%;
+    overflow-y: scroll;
+    display: none; 
+    opacity: 0.85;
+    background-color: #eee;
+}
+
+#main>.favorite-list:hover>.playlist{
+    display: block;
+}
+
+#main>.favorite-list>.playlist>li{
+    padding: 3px 20px;
+    display: flex;
+}
+
+#main>.favorite-list>.playlist>li:nth-child(2n){
+    background-color: #e8edea
+}
+
+#main>.favorite-list>.playlist>li:hover{
+    color: #518d84;
+}
+
+#main>.favorite-list>.playlist>li>.list-item-title{
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+#main>.favorite-list>.playlist>li>.list-item-artist{
+    font-size: 14px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100px;
 }
 
 .lyric{
