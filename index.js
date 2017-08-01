@@ -9,7 +9,7 @@ var duration = 0;
 var lyric = [];
 var lyricClock = -2;
 var likePlaylist = {
-    num: 0,
+    playing: -1,
     playlist: []
 }
 
@@ -146,7 +146,7 @@ $('.volume-controler').on('click', function(e){
 $('.like').on('click', function(e){
     $this = $(this);
     if($this.hasClass('chosen')){
-        $this.removeClass('chosen')
+        $this.removeClass('chosen');
     }
     else{
         $this.addClass('chosen')
@@ -185,6 +185,7 @@ function loadSong(){
                 $('.title').html(currentSong.title);
                 $('audio').attr('src', currentSong.url);
                 loadLrc(currentSong.sid);
+                isLiked(currentSong);
             }
         });
 }
@@ -316,4 +317,15 @@ function loadPlaylist(){
         console.log
      })
     $('.playlist').empty().append(html);
+}
+
+//检查当前歌曲是否已经在播放列表，是则返回在列表中的位置，否则返回-1
+function isLiked(song){
+    $.each(likePlaylist.playlist, function(key, value){
+        if(value.sid === song.sid){
+            $('.like').addClass('chosen');
+            return key;
+        }
+    })
+    return -1;
 }
