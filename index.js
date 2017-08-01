@@ -8,6 +8,10 @@ var time = 0;
 var duration = 0;
 var lyric = [];
 var lyricClock = -2;
+var likePlaylist = {
+    num: 0,
+    playlist: []
+}
 
 $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
@@ -32,6 +36,7 @@ $(window).ready(function(){
     currentChannels = channelsList.slice(0, 3);
     updateChannels();
     loadSong();
+    loadPlaylist();
 });
 
 //下一曲
@@ -137,6 +142,7 @@ $('.volume-controler').on('click', function(e){
     }
 })
 
+//“喜欢”按钮点击效果
 $('.like').on('click', function(e){
     $this = $(this);
     if($this.hasClass('chosen')){
@@ -144,6 +150,9 @@ $('.like').on('click', function(e){
     }
     else{
         $this.addClass('chosen')
+        likePlaylist.playlist.push(currentSong);
+        localStorage.setItem('playlist', JSON.stringify(likePlaylist.playlist))
+        loadPlaylist();
     }
 })
 
@@ -158,6 +167,8 @@ function loadSong(){
     $('.played').css('width', '0%');
     $('.second').html('00');
     $('.minute').html('00');
+    $('.like').removeClass('chosen');
+    //当前列表不是“我喜欢的音乐”则从API获取当前频道的随机歌曲，否则从“喜欢”列表加载
     $.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel: currentChannels[1].channel_id})
         .done(function(song){
             currentSong = JSON.parse(song).song[0];
@@ -295,4 +306,14 @@ function renderScrollLyric(curLrcNum){
     else{
         $lyric.scrollTop(lrcLength - height);
     }
+}
+
+function loadPlaylist(){
+    likePlaylist.playlist =  JSON.parse(localStorage.getItem('playlist'))||[]
+    var html = '';
+    $.each(likePlaylist.playlist, function(key, value){
+        html += `<li>${value.title}</li>`;
+        console.log
+     })
+    $('.playlist').empty().append(html);
 }

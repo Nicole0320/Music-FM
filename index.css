@@ -66,6 +66,7 @@ ul, li{list-style: none;}
     background-color: #e8edea;
     color: #3f413f;
     padding: 10px;
+    position: relative;
 }
 
 #main>img{
@@ -174,6 +175,14 @@ ul, li{list-style: none;}
 
 #main>.detail>.control>li.like.chosen{
     color: orangered;
+}
+
+#main>.playlist{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    opacity: 0.7;
 }
 
 .lyric{
