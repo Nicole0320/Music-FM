@@ -147,7 +147,6 @@ $('.like').on('click', function(e){
     $this = $(this);
     if($this.hasClass('chosen')){
         $this.removeClass('chosen');
-        console.log(likePlaylist.playing);
         likePlaylist.playlist.splice(likePlaylist.playing, 1);
         likePlaylist.playing = -1;
     }
