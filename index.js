@@ -154,6 +154,7 @@ $('.like').on('click', function(e){
     else{
         $this.addClass('chosen')
         likePlaylist.playlist.push(currentSong);
+        likePlaylist.playing = likePlaylist.playlist.length-1;
     }
     localStorage.setItem('playlist', JSON.stringify(likePlaylist.playlist))
     loadPlaylist();
