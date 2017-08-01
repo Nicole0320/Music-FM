@@ -168,6 +168,14 @@ $('.like').on('click', function(e){
     loadPlaylist();
 })
 
+//点击喜欢列表中的歌曲，即播放该歌曲
+$('.playlist').on('click','li',function(){
+    var index = $('.playlist>li').index($(this));
+    likePlaylist.playing = index;
+    currentSong = likePlaylist.playlist[index];
+    loadDetailsOfSong();
+})
+
 function updateChannels(){
     for(var i=0; i<3; i++){
         $('.channels').children().eq(i).html(currentChannels[i].name);
