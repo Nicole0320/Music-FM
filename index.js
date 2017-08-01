@@ -147,13 +147,16 @@ $('.like').on('click', function(e){
     $this = $(this);
     if($this.hasClass('chosen')){
         $this.removeClass('chosen');
+        console.log(likePlaylist.playing);
+        likePlaylist.playlist.splice(likePlaylist.playing, 1);
+        likePlaylist.playing = -1;
     }
     else{
         $this.addClass('chosen')
         likePlaylist.playlist.push(currentSong);
-        localStorage.setItem('playlist', JSON.stringify(likePlaylist.playlist))
-        loadPlaylist();
     }
+    localStorage.setItem('playlist', JSON.stringify(likePlaylist.playlist))
+    loadPlaylist();
 })
 
 function updateChannels(){
@@ -321,11 +324,12 @@ function loadPlaylist(){
 
 //检查当前歌曲是否已经在播放列表，是则返回在列表中的位置，否则返回-1
 function isLiked(song){
+    var num = -1
     $.each(likePlaylist.playlist, function(key, value){
         if(value.sid === song.sid){
             $('.like').addClass('chosen');
-            return key;
+            num = key;
         }
     })
-    return -1;
+    likePlaylist.playing = num;
 }
