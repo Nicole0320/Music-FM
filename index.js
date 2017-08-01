@@ -137,6 +137,16 @@ $('.volume-controler').on('click', function(e){
     }
 })
 
+$('.like').on('click', function(e){
+    $this = $(this);
+    if($this.hasClass('chosen')){
+        $this.removeClass('chosen')
+    }
+    else{
+        $this.addClass('chosen')
+    }
+})
+
 function updateChannels(){
     for(var i=0; i<3; i++){
         $('.channels').children().eq(i).html(currentChannels[i].name);

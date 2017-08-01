@@ -172,6 +172,10 @@ ul, li{list-style: none;}
     color: red;
 }
 
+#main>.detail>.control>li.like.chosen{
+    color: orangered;
+}
+
 .lyric{
     text-align: center;
     padding: 20px;
