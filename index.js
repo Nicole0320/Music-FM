@@ -201,10 +201,12 @@ $('ul').on('click', 'li>.delete-song', function(e){
     var deletedSong = likePlaylist.playlist.splice(index, 1);
     localStorage.setItem('playlist', JSON.stringify(likePlaylist.playlist))
     loadPlaylist();
-    if(currentChannels[1].channel_id === 'favorite' && deletedSong[0].sid === currentSong.sid){
-        likePlaylist.playing = (index + likePlaylist.playlist.length - 1) % likePlaylist.playlist.length;
+    if(deletedSong[0].sid === currentSong.sid){
+        $('.like').removeClass('chosen');
+        if(currentChannels[1].channel_id === 'favorite'){
+            likePlaylist.playing = (index + likePlaylist.playlist.length - 1) % likePlaylist.playlist.length;
+        }
     }
-    $('.like').removeClass('chosen');
 })
 
 //清空收藏的音乐列表
@@ -245,7 +247,7 @@ function loadSong(){
             likePlaylist.playing = (likePlaylist.playing + 1 ) % likePlaylist.playlist.length;
             currentSong = likePlaylist.playlist[likePlaylist.playing];
         }
-        
+        isRequesting = false;
         loadDetailsOfSong();
     }
     else{
