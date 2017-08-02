@@ -12,6 +12,7 @@ var likePlaylist = {
     playing: -1,
     playlist: []
 }
+var isRequesting = false; //获取歌曲装状态锁
 
 $(window).ready(function(){
     $('audio').attr('autoplay', 'true');
@@ -42,6 +43,9 @@ $(window).ready(function(){
 
 //下一曲
 $('.icon-next').on('click', function(){
+    if(isRequesting){
+        return;
+    }
     loadSong();
 })
 
@@ -81,6 +85,9 @@ $('.prev').on('click', function(){
 
 //播放和暂停
 $('.play-or-pause').on('click', function(){
+    if(isRequesting){
+        return;
+    }
     if(playing === true){
         $(this).removeClass('icon-pause').addClass('icon-play');
         $('audio')[0].pause();
@@ -124,6 +131,9 @@ $('audio').on('ended', function(){
 
 //调节播放进度
 $('.time-line>.line').on('click', function(e){
+    if(isRequesting){
+        return;
+    }
     var position = e.pageX - $(this).offset().left;
     time = position/$(this).innerWidth()*duration;
     $('audio')[0].currentTime = time;
@@ -153,6 +163,9 @@ $('.volume-controler').on('click', function(e){
 
 //“喜欢”按钮点击效果
 $('.like').on('click', function(e){
+    if(isRequesting){
+        return;
+    }
     $this = $(this);
     if($this.hasClass('chosen')){
         $this.removeClass('chosen');
@@ -201,6 +214,7 @@ function updateChannels(){
 }
 
 function loadSong(){
+    isRequesting = true;
     clearInterval(clock);
     $('.played').css('width', '0%');
     $('.second').html('00');
@@ -222,6 +236,7 @@ function loadSong(){
     else{
         $.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel: currentChannels[1].channel_id})
             .done(function(song){
+                isRequesting = false;
                 currentSong = JSON.parse(song).song[0];
                 if(currentSong.url === null){
                     console.log('这首歌是空的，再来一首')
