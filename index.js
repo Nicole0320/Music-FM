@@ -156,8 +156,13 @@ $('.like').on('click', function(e){
     $this = $(this);
     if($this.hasClass('chosen')){
         $this.removeClass('chosen');
-        likePlaylist.playlist.splice(likePlaylist.playing, 1);
-        likePlaylist.playing = -1;
+        var deletedSong  = likePlaylist.playlist.splice(likePlaylist.playing, 1);
+        if(currentChannels[1].channel_id === 'favorite' && deletedSong[0].sid === currentSong.sid){
+            likePlaylist.playing = (likePlaylist.playing + likePlaylist.playlist.length - 1) % likePlaylist.playlist.length;
+        }
+        else{
+            likePlaylist.playing = -1;
+        }
     }
     else{
         $this.addClass('chosen')
@@ -174,6 +179,19 @@ $('.playlist').on('click','li',function(){
     likePlaylist.playing = index;
     currentSong = likePlaylist.playlist[index];
     loadDetailsOfSong();
+})
+
+//从收藏列表中删除歌曲
+$('ul').on('click', 'li>.delete-song', function(e){
+    e.stopPropagation();
+    var index = $('.playlist>li>.delete-song').index($(this));
+    var deletedSong = likePlaylist.playlist.splice(index, 1);
+    localStorage.setItem('playlist', JSON.stringify(likePlaylist.playlist))
+    loadPlaylist();
+    if(currentChannels[1].channel_id === 'favorite' && deletedSong[0].sid === currentSong.sid){
+        likePlaylist.playing = (index + likePlaylist.playlist.length - 1) % likePlaylist.playlist.length;
+    }
+    $('.like').removeClass('chosen');
 })
 
 function updateChannels(){
@@ -354,6 +372,7 @@ function loadPlaylist(){
         html += `<li>
             <div class="list-item-title">${value.title}</div>
             <div class="list-item-artist">${value.artist}</div>
+            <div class="iconfont icon-trash delete-song"></div>
             </li>`;
      })
     $('.playlist').empty().append(html);

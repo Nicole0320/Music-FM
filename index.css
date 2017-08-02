@@ -230,6 +230,15 @@ ul, li{list-style: none;}
     width: 100px;
 }
 
+#main>.favorite-list>.playlist>li>.delete-song{
+    font-size: 14px;
+    padding: 3px;
+}
+
+#main>.favorite-list>.playlist>li>.delete-song:hover{
+    color: firebrick;
+}
+
 .lyric{
     text-align: center;
     padding: 20px;
