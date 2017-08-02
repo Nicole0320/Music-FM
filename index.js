@@ -73,7 +73,7 @@ $('.prev').on('click', function(){
     currentChannels = channelsList.slice(currentChannelsId-1, currentChannelsId+2);
     if(currentChannels[1].channel_id === 'favorite'){
         if(likePlaylist.playlist.length === 0){
-            alert('“我喜欢的”音乐播放列表还是空的哦，先收藏几首喜欢的音乐吧~');
+            alert('“我喜欢的”音乐播放列表还是空的哦，先从别的频道收藏几首喜欢的音乐吧~');
             currentChannelsId++;
             currentChannels = channelsList.slice(currentChannelsId-1, currentChannelsId+2);
             return;
@@ -205,6 +205,25 @@ $('ul').on('click', 'li>.delete-song', function(e){
         likePlaylist.playing = (index + likePlaylist.playlist.length - 1) % likePlaylist.playlist.length;
     }
     $('.like').removeClass('chosen');
+})
+
+//清空收藏的音乐列表
+$('.clear-playlist').on('click', function(e){
+    var confirmed = confirm('您将删除收藏列表中的所有歌曲，仍要继续操作请点击确认');
+    if(confirmed){
+        localStorage.clear();
+        loadPlaylist();
+        if(currentChannels[1].channel_id === "favorite"){
+            alert('“我喜欢的”音乐播放列表还是空的哦，先去其他频道收藏几首喜欢的音乐吧~');
+            currentChannelsId++;
+            currentChannels = channelsList.slice(currentChannelsId-1, currentChannelsId+2);
+            updateChannels();
+            loadSong();
+        }
+        if($('.like').hasClass('chosen')){
+            $('.like').removeClass('chosen');
+        }
+    }
 })
 
 function updateChannels(){

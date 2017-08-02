@@ -239,6 +239,22 @@ ul, li{list-style: none;}
     color: firebrick;
 }
 
+#main>.favorite-list>.clear-playlist{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background: #dcece5;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+#main>.favorite-list:hover>.clear-playlist{
+    display: block;
+}
+
 .lyric{
     text-align: center;
     padding: 20px;
