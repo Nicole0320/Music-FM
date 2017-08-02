@@ -216,10 +216,6 @@ function updateChannels(){
 function loadSong(){
     isRequesting = true;
     clearInterval(clock);
-    $('.played').css('width', '0%');
-    $('.second').html('00');
-    $('.minute').html('00');
-    $('.like').removeClass('chosen');
     //当前列表不是“我喜欢的音乐”则从API获取当前频道的随机歌曲，否则从“喜欢”列表加载
     if(currentChannels[1].channel_id === 'favorite'){
         if(likePlaylist.playing === -1){
@@ -250,6 +246,10 @@ function loadSong(){
 }
 
 function loadDetailsOfSong(){
+    $('.played').css('width', '0%');
+    $('.second').html('00');
+    $('.minute').html('00');
+    $('.like').removeClass('chosen');
     var indexOfAt = currentSong.picture.indexOf('@');
     var pictureURL = currentSong.picture.substring(0,indexOfAt);
     lyric = [];
