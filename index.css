@@ -192,17 +192,21 @@ ul, li{list-style: none;}
 }
 
 #main>.favorite-list>.playlist{
+    display: block;
     cursor: pointer;
     height: 200px;
     width: 100%;
     overflow-y: scroll;
-    display: none; 
     opacity: 0.85;
     background-color: #eee;
+    visibility: hidden;
+    transform: translate(0, -20px);
 }
 
 #main>.favorite-list:hover>.playlist{
-    display: block;
+    visibility: visible;
+    transform: translate(0, 0);
+    transition: all 0.5s;
 }
 
 #main>.favorite-list>.playlist>li{
@@ -248,11 +252,14 @@ ul, li{list-style: none;}
     background: #dcece5;
     font-size: 15px;
     cursor: pointer;
-    display: none;
+    visibility: hidden;
+    transform: translate(0, -20px);
 }
 
 #main>.favorite-list:hover>.clear-playlist{
-    display: block;
+    visibility: visible;
+    transform: translate(0, 0);
+    transition: all 0.5s;
 }
 
 .lyric{
